@@ -1,61 +1,40 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+## CyDu test Spec
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+- Use http://adminlte.io/asaframeworkfortheapplicaXon
+- Basic Laravel Auth: ability to login as administrator
+- Use database seeds to create first user with emailadmin@admin.comand password “password”
+- CRUD functionality (Create / Read / Update / Delete) for two menu items: Companies and Employees.
+- Companies DB table consists of these fields: Name (required), email, logo (minimum 100x100), website
+- Employees DB table consists of these fields: First name (required), last name (required), Company (foreign key to Companies), email, phone
+- Use database migrations to create those schemas above
+- Store companies’ logos in storage/app/public folder and make them accessible from public
+- Use basic Laravel resource controllers with default methods –index,create,store etc.
+- Use Laravel’s validation function, using Request classes
+- Use Laravel’s pagination for showing Companies/Employees list, 10 entries per page
+- Use Laravel make:auth as default Bootstrap-based design theme, but remove ability to
+register
 
-## About Laravel
+## Setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+please run all these from root folder & via terminal.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- run `composer install`
+- run `npm install && npm run dev`
+- copy .env.example to .env
+- run `php artisan key:generate`
+- Optional: fill in your database details in the .env 
+    - i have defaulted it to sqlite
+    - please run `touch database/database.sqlite`
+- run (from your root folder)`mv temp.jpg storage/app/public/companies`
+    - used for seeding purposes
+- run `php artisan migrate --seed`
+- run `php artisan serve`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tests
 
-## Learning Laravel
+run `php artisan test` for a more visually satisfying run of tests or if you are old school run `phpunit`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Alternatives
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+i have also created two extra branches - just to show two diff methods (repo pattern & Actions). for a simple app like this probably an overkill but for a more feature intensive I would probably use Actions to keep things dry & reusable.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
