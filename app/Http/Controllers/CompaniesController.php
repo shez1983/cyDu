@@ -64,6 +64,11 @@ class CompaniesController extends Controller
         $company->fill($request->except('logo'));
         $company->logo = $request->logo->store('companies', 'public');
         $company->save();
+
+        return redirect()
+            ->route('companies.index')
+            ->with('success', 'Company was updated successfully');
+
     }
 
     /**
