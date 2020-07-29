@@ -8,6 +8,7 @@ use App\Http\Requests\CompanyUpdateRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
 
 class CompaniesController extends Controller
 {
@@ -94,6 +95,7 @@ class CompaniesController extends Controller
         $company->fill($request->except('logo'));
 
         if($request->hasFile('logo')) {
+            Storage::disk('public')->delete($company->logo);
             $company->logo = $request->logo->store('companies', 'public');
         }
 
