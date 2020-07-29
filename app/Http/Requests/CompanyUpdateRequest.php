@@ -24,15 +24,17 @@ class CompanyUpdateRequest extends FormRequest
      */
     public function rules()
     {
+        $id = (int) $this->route()->parameter('company');
+
         return [
             'name' => [
                 'required',
-                Rule::unique('companies', 'name')->ignore($this->company->id),
+                Rule::unique('companies', 'name')->ignore($id),
             ],
             'email' => [
                 'required',
                 'email',
-                Rule::unique('companies', 'email')->ignore($this->company->id),
+                Rule::unique('companies', 'email')->ignore($id),
             ],
             'website' => 'required|url',
             'logo' => 'image|size:1024|dimensions:min_width=100,min_height=100',

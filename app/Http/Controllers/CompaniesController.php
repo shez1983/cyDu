@@ -5,19 +5,24 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
+use App\Repositories\CompaniesRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 class CompaniesController extends Controller
 {
+    protected $repository;
+
     /**
      * Create a new controller instance.
      *
      */
-    public function __construct()
+    public function __construct(CompaniesRepository $repository)
     {
         $this->middleware('auth');
+
+        $this->repository = $repository;
     }
 
     /**
@@ -27,7 +32,7 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        $companies = Company::latest()->paginate();
+        $companies = $this->repository->paginated();
 
         return view('companies.index', compact('companies'));
     }
@@ -35,11 +40,13 @@ class CompaniesController extends Controller
     /**
      * Show a company
      *
-     * @param Company $company
+     * @param int $companyId
      * @return Factory|\Illuminate\View\View
      */
-    public function show(Company $company)
+    public function show(int $companyId)
     {
+        $company = $this->repository->find($companyId);
+
         return view('companies.show', compact('company'));
     }
 
@@ -57,28 +64,27 @@ class CompaniesController extends Controller
      * Store a new company into DB
      *
      * @param CompanyStoreRequest $request
+     * @return Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(CompanyStoreRequest $request)
     {
-        $company = new Company();
-        $company->fill($request->except('logo'));
-        $company->logo = $request->logo->store('companies', 'public');
-        $company->save();
+        $this->repository->create($request);
 
         return redirect()
             ->route('companies.index')
             ->with('success', 'Company was updated successfully');
-
     }
 
     /**
      * Edit selected company
      *
-     * @param Company $company
+     * @param int $companyId
      * @return Factory|\Illuminate\View\View
      */
-    public function edit(Company $company)
+    public function edit(int $companyId)
     {
+        $company = $this->repository->find($companyId);
+
         return view('companies.edit', compact('company'));
     }
 
@@ -86,18 +92,14 @@ class CompaniesController extends Controller
      * Update selected company
      *
      * @param CompanyUpdateRequest $request
-     * @param Company $company
+     * @param int $companyId
      * @return Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(CompanyUpdateRequest $request, Company $company)
+    public function update(CompanyUpdateRequest $request, int $companyId)
     {
-        $company->fill($request->except('logo'));
+        $company = $this->repository->find($companyId);
 
-        if($request->hasFile('logo')) {
-            $company->logo = $request->logo->store('companies', 'public');
-        }
-
-        $company->save();
+        $this->repository->update($request, $company);
 
         return redirect()
             ->route('companies.index')
@@ -107,12 +109,14 @@ class CompaniesController extends Controller
     /**
      * Delete selected company
      *
-     * @param Company $company
+     * @param int $companyId
      * @return Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function destroy(Company $company)
+    public function destroy(int $companyId)
     {
-        $company->delete();
+        $company = $this->repository->find($companyId);
+
+        $this->repository->destroy($company);
 
         return redirect()
             ->route('companies.index')
