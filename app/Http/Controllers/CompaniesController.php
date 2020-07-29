@@ -114,6 +114,7 @@ class CompaniesController extends Controller
      */
     public function destroy(Company $company)
     {
+        Storage::disk('public')->delete($company->logo);
         $company->delete();
 
         return redirect()
