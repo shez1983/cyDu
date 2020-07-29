@@ -37,7 +37,7 @@ class CompanyUpdateRequest extends FormRequest
                 Rule::unique('companies', 'email')->ignore($id),
             ],
             'website' => 'required|url',
-            'logo' => 'image|size:1024|dimensions:min_width=100,min_height=100',
+            'logo' => 'image|max:1024|dimensions:min_width=100,min_height=100',
         ];
     }
 }

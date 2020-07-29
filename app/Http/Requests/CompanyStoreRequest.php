@@ -27,7 +27,7 @@ class CompanyStoreRequest extends FormRequest
             'name' => 'required|unique:companies,name',
             'email' => 'required|email|unique:companies,email',
             'website' => 'required|url',
-            'logo' => 'required|image|size:1024|dimensions:min_width=100,min_height=100',
+            'logo' => 'required|image|max:1024|dimensions:min_width=100,min_height=100',
         ];
     }
 }
