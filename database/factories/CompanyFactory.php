@@ -18,7 +18,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Company::class, function (Faker $faker) {
     return [
-        'name' => $faker->company,
+        'name' => $faker->unique()->company,
         'email' => $faker->unique()->safeEmail,
         'logo' => 'companies/temp.jpg',
         'website' => $faker->url,
