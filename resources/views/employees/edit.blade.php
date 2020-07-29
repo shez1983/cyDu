@@ -21,7 +21,8 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('employees.store') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('employees.update', ['employee' => $employee->id]) }}" enctype="multipart/form-data">
+        @method('PUT')
         @csrf
         <div class="form-group row">
             <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
@@ -50,7 +51,7 @@
                 <select name="company_id" required>
                     <option value="">-select-</option>
                     @foreach($companies as $company)
-                        <option @if($company->id === old('company_id', $employee->company_id)) selected @endif
+                        <option @if((int)$company->id === (int) old('company_id', $employee->company_id)) selected @endif
                                 value="{{ $company->id }}">{{ $company->name }}</option>
                     @endforeach
                 </select>
@@ -66,7 +67,7 @@
 
         <div class="form-group row">
             <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </div>
     </form>
