@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Companies\CreateCompanyAction;
+use App\Actions\Companies\UpdateCompanyAction;
 use App\Company;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
@@ -60,15 +62,12 @@ class CompaniesController extends Controller
      */
     public function store(CompanyStoreRequest $request)
     {
-        $company = new Company();
-        $company->fill($request->except('logo'));
-        $company->logo = $request->logo->store('companies', 'public');
-        $company->save();
+        (new CreateCompanyAction())
+            ->handle($request);
 
         return redirect()
             ->route('companies.index')
             ->with('success', 'Company was updated successfully');
-
     }
 
     /**
@@ -91,13 +90,8 @@ class CompaniesController extends Controller
      */
     public function update(CompanyUpdateRequest $request, Company $company)
     {
-        $company->fill($request->except('logo'));
-
-        if($request->hasFile('logo')) {
-            $company->logo = $request->logo->store('companies', 'public');
-        }
-
-        $company->save();
+        (new UpdateCompanyAction())
+            ->handle($request, $company);
 
         return redirect()
             ->route('companies.index')
