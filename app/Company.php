@@ -16,4 +16,9 @@ class Company extends Model
     ];
 
     protected $perPage = 10;
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
 }
